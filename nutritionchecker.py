@@ -1,27 +1,73 @@
 import requests
 import json
+import PySimpleGUI as sg
+
+
 
 def fetch_meal():
 # generates recipe info from selected input
 # outputs ingredients, measurements, nutrition, and instructions to display
 
-    print('enter a meal')
-    mealname = input()
+    
+    meal_layout = [  [sg.Text('Input a meal')],
+            [sg.InputText()],
+            [sg.Button('Ok'), sg.Button('Cancel')] ]
+    
+    
 
-    mealapi = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+mealname
+    # Create the Window
+    window = sg.Window('Meal Search', meal_layout)
+# Event Loop to process "events" and get the "values" of the inputs
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+            break
+        if event == 'Ok':
+            meal = values[0]
+            print('You entered ', meal)
+            window.close()
+            
+
+    mealapi = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+meal
     mealresponse = requests.request("GET", mealapi)
     meal_dict = json.loads(mealresponse.text)
     #gets meal names
     meal_iter = 0
+    recipe_list = []
     while meal_iter != len(meal_dict['meals']):
         if meal_iter == len(meal_dict['meals']):
             break
         else:
-            print(meal_dict['meals'][meal_iter]['strMeal'])
+            recipe_list.append(meal_dict['meals'][meal_iter]['strMeal'])
             meal_iter += 1
     #input an available recipe
-    print('select a recipe')
-    recipe_sel = input()
+    
+    print(recipe_list)
+    recipe_layout = [  [sg.Text('Input recipe selection')],
+            [
+        sg.Listbox(
+            values = recipe_list, enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
+        )
+    ],
+            [sg.InputText()],
+            [sg.Button('Ok'), sg.Button('Cancel')]]
+
+    def recipe_select():
+        window = sg.Window('Recipe Select', recipe_layout)
+        while True:
+            event, values = window.read()
+            if event == sg.WIN_CLOSED or event == 'Cancel':
+                break
+            if event == 'Ok':
+                recipe = values[0]
+                print('you entered ', recipe)
+                window.close()
+    
+    recipe_select()
+
+    
+
+    recipe_sel = recipe
     
     #gets instructions, ingr, and measurements for recipe
     recipe_iter = 0
@@ -73,7 +119,6 @@ def fetch_meal():
     nutrient_code = {'FIBTG': 'Fiber', 'CHOCDF': 'Carbohydrates', 'ENERC_KCAL': 'Kilocalories', 'FAT': 'Total fat', 'PROCNT': 'Protein'}
 
     print(ingr_query)
-    print(ingr_keys)
     print(ingr_list)
     print(meas_list)
     print(recipe_inst)
