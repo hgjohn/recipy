@@ -13,7 +13,7 @@ recipe_searcher_column = [
     [sg.InputText(), sg.Button('Search')],
     [
         sg.Listbox(
-            values = [], enable_events=True, size=(40, 20), key="-FILE LIST-"
+            values = [], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
@@ -39,7 +39,7 @@ layout = [
                      
 
 # Create the window
-window = sg.Window("Demo", layout)
+window = sg.Window("Recipe Browser", layout)
 
 # Create an event loop
 while True:
