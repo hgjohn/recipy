@@ -51,6 +51,27 @@ def get_mealingr(mealname):
     return ingr_list
     #print(ingr_list)   
 
+def get_mealdir(mealname):
+
+    mealapi = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+mealname
+    mealresponse = requests.request("GET", mealapi)
+    meal_dict = json.loads(mealresponse.text)
+    #input an available recipe
+    
+    #gets instructions, ingr, and measurements for recipe
+    recipe_iter = 0
+    while recipe_iter != len(meal_dict['meals']):
+        if recipe_iter == len(meal_dict['meals']):
+            break
+        elif meal_dict['meals'][recipe_iter]['strMeal'] == mealname:
+            recipe_dict = meal_dict['meals'][recipe_iter]
+            recipe_iter += 1
+        else:
+            recipe_iter += 1
+    recipe_inst = recipe_dict['strInstructions']
+    return recipe_inst
+
+
 #get_mealingr('Chicken Handi')
 
 
@@ -68,7 +89,7 @@ recipe_searcher_column = [
     ],
     [
         sg.Listbox(
-            values = ['apple','banana'], enable_events=True, size=(30, 20), key="-RECIPE LIST-"
+            values = [], enable_events=True, size=(30, 20), key="-RECIPE LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
@@ -117,6 +138,7 @@ while True:
     if event == "-RECIPE LIST-": # A file was chosen  from the listbox
         recipename = ''.join(values["-RECIPE LIST-"])
         window["-INGREDIENT LIST-"].update(get_mealingr(recipename))
+        window["-DIRECTIONMLINE-"].update(get_mealdir(recipename))
 
 
 window.close()
