@@ -24,7 +24,9 @@ recipe_searcher_column = [
 #We have the option of displaying a picture, if we grab that link
 recipe_viewer_column = [
     [sg.Text('Ingredients')],
-    [sg.Text('Directions')]
+    [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-INGREDIENTMLINE-')],
+    [sg.Text('Directions')],
+    [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-DIRECTIONMLINE-')]
     
 ]  
 
