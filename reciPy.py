@@ -16,7 +16,7 @@ recipe_searcher_column = [
     ],
     [
         sg.Listbox(
-            values = [], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
+            values = ['apple','banana'], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
