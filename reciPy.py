@@ -47,8 +47,13 @@ def get_mealingr(mealname):
     meas_list = [recipe_dict['strMeasure1'], recipe_dict['strMeasure2'], recipe_dict['strMeasure3'], recipe_dict['strMeasure4'], recipe_dict['strMeasure5'], recipe_dict['strMeasure6'], recipe_dict['strMeasure7'], recipe_dict['strMeasure8'], recipe_dict['strMeasure9'], recipe_dict['strMeasure10'], recipe_dict['strMeasure11'], recipe_dict['strMeasure12'], recipe_dict['strMeasure13'], recipe_dict['strMeasure14'], recipe_dict['strMeasure15'], recipe_dict['strMeasure16'], recipe_dict['strMeasure17'], recipe_dict['strMeasure18'], recipe_dict['strMeasure19'], recipe_dict['strMeasure20'], ]
     
     #this empties null values from ingr_list
-    ingr_list = list(filter(None, ingr_list)) 
-    return ingr_list
+    ingr_list = list(filter(None, ingr_list))
+    c = []
+    for x, y in zip(ingr_list, meas_list):
+        c += [x, y]
+    d = str(c)
+    return d
+    #return ingr_list
     #print(ingr_list)   
 
 def get_mealdir(mealname):
@@ -84,7 +89,7 @@ def get_mealdir(mealname):
 
 recipe_searcher_column = [
     [
-        sg.InputText(size=(45), enable_events=True, key="-MEAL NAME-"), 
+        sg.InputText(size=(25), enable_events=True, key="-MEAL NAME-"), 
         sg.Button('Search')
     ],
     [
@@ -101,8 +106,8 @@ recipe_searcher_column = [
 recipe_viewer_column = [
     [sg.Text('Ingredients')],
     [
-        sg.Listbox(
-            values = [], enable_events=True, size=(45, 5), key="-INGREDIENT LIST-"
+        sg.Multiline(
+            '', enable_events=True, size=(45, 5), key="-INGREDIENT LIST-"
         )
     ],
     [sg.Text('Directions')],
