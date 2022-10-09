@@ -1,6 +1,57 @@
 # reciPy.py
 
 import PySimpleGUI as sg
+import requests
+import json
+
+def list_meal(mealname):
+# generates recipe info from selected input
+# outputs ingredients, measurements, nutrition, and instructions to display
+
+    mealapi = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+mealname
+    mealresponse = requests.request("GET", mealapi)
+    meal_dict = json.loads(mealresponse.text)
+    #gets meal names
+    meal_iter = 0
+    recipe_list = []
+    while meal_iter != len(meal_dict['meals']):
+        if meal_iter == len(meal_dict['meals']):
+            break
+        else:
+            recipe_list.append(meal_dict['meals'][meal_iter]['strMeal'])
+            meal_iter += 1
+    return recipe_list
+
+#list_meal('chicken')
+
+def get_mealingr(mealname):
+
+    mealapi = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+mealname
+    mealresponse = requests.request("GET", mealapi)
+    meal_dict = json.loads(mealresponse.text)
+    #input an available recipe
+    
+    #gets instructions, ingr, and measurements for recipe
+    recipe_iter = 0
+    while recipe_iter != len(meal_dict['meals']):
+        if recipe_iter == len(meal_dict['meals']):
+            break
+        elif meal_dict['meals'][recipe_iter]['strMeal'] == mealname:
+            recipe_dict = meal_dict['meals'][recipe_iter]
+            recipe_iter += 1
+        else:
+            recipe_iter += 1
+
+    recipe_inst = recipe_dict['strInstructions']
+    ingr_list = [recipe_dict['strIngredient1'], recipe_dict['strIngredient2'], recipe_dict['strIngredient3'], recipe_dict['strIngredient4'], recipe_dict['strIngredient5'], recipe_dict['strIngredient6'], recipe_dict['strIngredient7'], recipe_dict['strIngredient8'], recipe_dict['strIngredient9'], recipe_dict['strIngredient10'], recipe_dict['strIngredient11'], recipe_dict['strIngredient12'], recipe_dict['strIngredient13'], recipe_dict['strIngredient14'], recipe_dict['strIngredient15'], recipe_dict['strIngredient16'], recipe_dict['strIngredient17'], recipe_dict['strIngredient18'], recipe_dict['strIngredient19'], recipe_dict['strIngredient20'], ]
+    meas_list = [recipe_dict['strMeasure1'], recipe_dict['strMeasure2'], recipe_dict['strMeasure3'], recipe_dict['strMeasure4'], recipe_dict['strMeasure5'], recipe_dict['strMeasure6'], recipe_dict['strMeasure7'], recipe_dict['strMeasure8'], recipe_dict['strMeasure9'], recipe_dict['strMeasure10'], recipe_dict['strMeasure11'], recipe_dict['strMeasure12'], recipe_dict['strMeasure13'], recipe_dict['strMeasure14'], recipe_dict['strMeasure15'], recipe_dict['strMeasure16'], recipe_dict['strMeasure17'], recipe_dict['strMeasure18'], recipe_dict['strMeasure19'], recipe_dict['strMeasure20'], ]
+    
+    #this empties null values from ingr_list
+    ingr_list = list(filter(None, ingr_list)) 
+    print(ingr_list)   
+
+#get_mealingr('Chicken Handi')
+
 
 # Changes the theme/color 
 # It's a place holder for now, until I figure out the values
@@ -11,7 +62,7 @@ import PySimpleGUI as sg
 
 recipe_searcher_column = [
     [
-        sg.InputText(size=(45), enable_events=True, key="-LIST-"), 
+        sg.InputText(size=(45), enable_events=True, key="-MEAL NAME-"), 
         sg.Button('Search')
     ],
     [
@@ -55,7 +106,9 @@ while True:
         break
     # This is the part of the code that needs to access Recipe names
     # For example, .update(mealName())
-    #if event == "-LISTRECIPE-":
-    #    window["-INGREDIENT LIST-"].update()
+    if event == "Search":
+        mealName = values["-MEAL NAME-"]
+        window["-INGREDIENT LIST-"].update(list_meal(mealName))
+    #if event == 
 
 window.close()
