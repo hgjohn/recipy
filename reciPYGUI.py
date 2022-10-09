@@ -138,7 +138,7 @@ recipe_searcher_column = [
     ],
     [
         sg.Listbox(
-            values = ['apple','banana'], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
+            values = ['apple','banana'], enable_events=True, size=(40, 20), key="-MEAL LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
@@ -149,7 +149,11 @@ recipe_searcher_column = [
 #We have the option of displaying a picture, if we grab that link
 recipe_viewer_column = [
     [sg.Text('Ingredients')],
-    [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-INGREDIENTMLINE-')],
+    [
+        sg.Listbox(
+            values = [], enable_events=False, size=(45, 5), key="-INGREDIENT LIST-"
+        )
+    ],
     [sg.Text('Directions')],
     [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-DIRECTIONMLINE-')]
     
