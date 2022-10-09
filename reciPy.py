@@ -7,14 +7,24 @@ import PySimpleGUI as sg
 # sg.theme('')
 
 # ----- child components
+# meal names will be given to values as an array. Key can be referenced in the event loop.
+
 recipe_searcher_column = [
     [sg.InputText(), sg.Button('Search')],
+    [
+        sg.Listbox(
+            values = [], enable_events=True, size=(40, 20), key="-FILE LIST-"
+        )
+    ],
     [sg.Button('Back'), sg.Button('Next')],
     [sg.Button("OK")]
 ]  
 
-recipe_browser_column = [
+#Displays meal information
+#We have the option of displaying a picture, if we grab that link
+recipe_viewer_column = [
     [sg.Text('Ingredients')],
+    [sg.Text('Directions')]
     
 ]  
 
@@ -23,7 +33,7 @@ layout = [
     [
         sg.Column(recipe_searcher_column),
         sg.VSeparator(),
-        sg.Column(recipe_browser_column)
+        sg.Column(recipe_viewer_column)
     ]
 ]  
                      
