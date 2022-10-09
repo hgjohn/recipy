@@ -20,7 +20,12 @@ def fetch_meal():
             print(meal_dict['meals'][meal_iter]['strMeal'])
             meal_iter += 1
     #input an available recipe
-    print('select a recipe')dict(zip(ingr_keys, ingr_list))    while recipe_iter != len(meal_dict['meals']):
+    print('select a recipe')
+    recipe_sel = input()
+    
+    #gets instructions, ingr, and measurements for recipe
+    recipe_iter = 0
+    while recipe_iter != len(meal_dict['meals']):
         if recipe_iter == len(meal_dict['meals']):
             break
         elif meal_dict['meals'][recipe_iter]['strMeal'] == recipe_sel:
@@ -46,14 +51,14 @@ def fetch_meal():
     for array in ingr_info:
         array += ['ingr'] * (max_length - len(array))
 
-    ingr_query = {k: v for k, v in zip(ingr_keys, ingr_list)}
+    ingr_query = dict(zip(ingr_keys, ingr_list))
 
     
     #api call for nutrition based on ingr dict
     url = "https://edamam-food-and-grocery-database.p.rapidapi.com/parser"
     #querystring = {"ingr":"apple", "ingr":"banana"}
     querystring = ingr_query
-    
+    #meal_dict keys must all read "ingr" before querystring will accept it as input
     headers = {
 	    "X-RapidAPI-Key": "66c11ad3c1mshcab242ab4c9a6abp19ed96jsne88329d755ee",
 	    "X-RapidAPI-Host": "edamam-food-and-grocery-database.p.rapidapi.com"
@@ -65,7 +70,6 @@ def fetch_meal():
     end_nutrients = response.text.find('}')
     nutrient_dict = json.loads(response.text[nutrients+11:end_nutrients+1])
 
-    # code to english for nurients
     nutrient_code = {'FIBTG': 'Fiber', 'CHOCDF': 'Carbohydrates', 'ENERC_KCAL': 'Kilocalories', 'FAT': 'Total fat', 'PROCNT': 'Protein'}
 
     print(ingr_query)
@@ -77,3 +81,6 @@ def fetch_meal():
 
 
 fetch_meal()
+
+# put ingr in dict with 'ingr' for each key for nutrition
+# convert nutrition symbols to strings
