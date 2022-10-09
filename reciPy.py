@@ -2,17 +2,20 @@
 
 import PySimpleGUI as sg
 
+# Changes the theme/color 
+# It's a place holder for now, until I figure out the values
 # sg.theme('')
 
 # ----- child components
 recipe_searcher_column = [
     [sg.InputText(), sg.Button('Search')],
+    [sg.Button('Back'), sg.Button('Next')],
     [sg.Button("OK")]
 ]  
 
 recipe_browser_column = [
-    [sg.InputText(), sg.Button('Search')],
-    [sg.Button("OK")]
+    [sg.Text('Ingredients')],
+    
 ]  
 
 # ----- parent component -----
