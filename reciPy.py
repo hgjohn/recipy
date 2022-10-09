@@ -48,7 +48,8 @@ def get_mealingr(mealname):
     
     #this empties null values from ingr_list
     ingr_list = list(filter(None, ingr_list)) 
-    print(ingr_list)   
+    return ingr_list
+    #print(ingr_list)   
 
 #get_mealingr('Chicken Handi')
 
@@ -67,7 +68,7 @@ recipe_searcher_column = [
     ],
     [
         sg.Listbox(
-            values = ['apple','banana'], enable_events=True, size=(30, 20), key="-INGREDIENT LIST-"
+            values = ['apple','banana'], enable_events=True, size=(30, 20), key="-RECIPE LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
@@ -78,7 +79,11 @@ recipe_searcher_column = [
 #We have the option of displaying a picture, if we grab that link
 recipe_viewer_column = [
     [sg.Text('Ingredients')],
-    [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-INGREDIENTMLINE-')],
+    [
+        sg.Listbox(
+            values = [], enable_events=True, size=(45, 5), key="-INGREDIENT LIST-"
+        )
+    ],
     [sg.Text('Directions')],
     [sg.Multiline('Placeholder', size=(45, 5), expand_x=False, expand_y=True, key='-DIRECTIONMLINE-')]
     
@@ -108,7 +113,10 @@ while True:
     # For example, .update(mealName())
     if event == "Search":
         mealName = values["-MEAL NAME-"]
-        window["-INGREDIENT LIST-"].update(list_meal(mealName))
-    #if event == 
+        window["-RECIPE LIST-"].update(list_meal(mealName))
+    if event == "-RECIPE LIST-": # A file was chosen  from the listbox
+        recipename = ''.join(values["-RECIPE LIST-"])
+        window["-INGREDIENT LIST-"].update(get_mealingr(recipename))
+
 
 window.close()
