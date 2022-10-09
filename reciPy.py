@@ -10,7 +10,10 @@ import PySimpleGUI as sg
 # meal names will be given to values as an array. Key can be referenced in the event loop.
 
 recipe_searcher_column = [
-    [sg.InputText(), sg.Button('Search')],
+    [
+        sg.InputText(enable_events=True, key="-LIST-"), 
+        sg.Button('Search')
+    ],
     [
         sg.Listbox(
             values = [], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
@@ -50,5 +53,9 @@ while True:
     # presses the OK button
     if event == "OK" or event == sg.WIN_CLOSED:
         break
+    # This is the part of the code that needs to access Recipe names
+    # For example, .update(mealName())
+    #if event == "-LISTRECIPE-":
+    #    window["-INGREDIENT LIST-"].update()
 
 window.close()
