@@ -11,12 +11,12 @@ import PySimpleGUI as sg
 
 recipe_searcher_column = [
     [
-        sg.InputText(enable_events=True, key="-LIST-"), 
+        sg.InputText(size=(45), enable_events=True, key="-LIST-"), 
         sg.Button('Search')
     ],
     [
         sg.Listbox(
-            values = ['apple','banana'], enable_events=True, size=(40, 20), key="-INGREDIENT LIST-"
+            values = ['apple','banana'], enable_events=True, size=(30, 20), key="-INGREDIENT LIST-"
         )
     ],
     [sg.Button('Back'), sg.Button('Next')],
